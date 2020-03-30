@@ -5,11 +5,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from .models import Image
 import json
+from django.contrib.auth import authenticate
 
 # Create your views here.
 @csrf_exempt
 def index(request):
-    images_list = []
+    images_list = Image.objects.all()
     return HttpResponse(serializers.serialize("json", images_list))
 
 @csrf_exempt
@@ -33,3 +34,17 @@ def add_user_view(request):
 def show_portfolio(request, user_id):
     images_list = Image.objects.filter(user=user_id)
     return HttpResponse(serializers.serialize("json", images_list))
+
+
+@csrf_exempt
+def login(request):
+    if request.method == 'POST':
+        json_user = json.loads(request.body)
+        username = json_user['username']        
+        password = json_user['password']
+        
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=401)
