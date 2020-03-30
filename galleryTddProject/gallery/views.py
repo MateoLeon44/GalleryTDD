@@ -32,7 +32,7 @@ def add_user_view(request):
 
 @csrf_exempt
 def show_portfolio(request, user_id):
-    images_list = Image.objects.filter(user=user_id)
+    images_list = Image.objects.filter(user=user_id, public=True)
     return HttpResponse(serializers.serialize("json", images_list))
 
 

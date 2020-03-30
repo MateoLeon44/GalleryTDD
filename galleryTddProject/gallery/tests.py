@@ -67,4 +67,13 @@ class GalleryTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_list_portflio_public(self):
-        
+        user_model = User.objects.create_user(
+            username='test', password='kd8wke-DE34', first_name='test', last_name='test', email='test@test.com')
+        Image.objects.create(
+            name='test', url='No', description='testImage', type='jpg', user=user_model, public=True)
+        Image.objects.create(
+            name='test1', url='No', description='testImage', type='jpg', user=user_model, public=False)
+
+        response = self.client.get('/gallery/4/portfolio')
+        current_data = json.loads(response.content)
+        self.assertEqual(current_data[0]['fields']['name'], 'test')
