@@ -6,6 +6,8 @@ from django.core import serializers
 from .models import Image
 import json
 from django.contrib.auth import authenticate
+from django.http import JsonResponse
+
 
 # Create your views here.
 @csrf_exempt
@@ -48,3 +50,9 @@ def login(request):
             return HttpResponse(status=200)
         else:
             return HttpResponse(status=401)
+
+@csrf_exempt
+def edit_user(request):
+    if request.method == "GET":
+        user = User.objects.all()
+        return HttpResponse(serializers.serialize("json", user))

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
+from django.http import JsonResponse
 
 # Create your tests here.
 from .models import Image
@@ -62,8 +63,10 @@ class GalleryTestCase(TestCase):
         self.assertEqual(len(current_data), 4)
 
     def login(self):
-        user_model = User.objects.create_user(username='testUser', password='kd8wke-DE34', first_name='Test', last_name='Test', email='test@test.com')
-        response=self.client.post('/gallery/login/', json.dumps({"username": "testUser", "password": "kd8wke-DE34"}), content_type='application/json')
+        user_model = User.objects.create_user(
+            username='testUser', password='kd8wke-DE34', first_name='Test', last_name='Test', email='test@test.com')
+        response = self.client.post('/gallery/login/', json.dumps(
+            {"username": "testUser", "password": "kd8wke-DE34"}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
     def test_list_portflio_public(self):
@@ -78,4 +81,3 @@ class GalleryTestCase(TestCase):
         current_data = json.loads(response.content)
         self.assertEqual(current_data[0]['fields']['name'], 'test')
 
-    def test_edit_user(self):
