@@ -38,5 +38,8 @@ class GalleryTestCase(TestCase):
         self.assertEqual(current_data[0]['fields']['name'],'test')
 
     def test_count_images_list(self):
-        print("")
+ 
+        response = self.client.get("/gallery")
+        current_data = json.loads(response.content)
+        self.assertEqual(len(current_data), 0)
 
