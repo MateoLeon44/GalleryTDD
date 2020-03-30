@@ -38,5 +38,5 @@ class GalleryTestCase(TestCase):
         self.assertEqual(current_data[0]['fields']['name'],'test')
 
     def test_count_images_list(self):
-        
+        print("")
 
