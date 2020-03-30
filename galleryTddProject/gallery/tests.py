@@ -77,3 +77,5 @@ class GalleryTestCase(TestCase):
         response = self.client.get('/gallery/4/portfolio')
         current_data = json.loads(response.content)
         self.assertEqual(current_data[0]['fields']['name'], 'test')
+
+    def test_edit_user(self):
